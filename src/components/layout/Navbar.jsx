@@ -1,6 +1,14 @@
 import React from 'react';
+import { useAuth } from '../../context/AuthContext';
 
 const Navbar = () => {
+    const { user } = useAuth();
+
+    const fullName = user ? `${user.first_name || ''} ${user.last_name || ''}`.trim() : 'User';
+    const initials = user
+        ? `${(user.first_name || '')[0] || ''}${(user.last_name || '')[0] || ''}`.toUpperCase()
+        : 'U';
+
     return (
         <div className="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-8 shrink-0">
             <div className="flex-1 max-w-lg">
@@ -26,9 +34,9 @@ const Navbar = () => {
                 
                 <div className="flex items-center space-x-3 cursor-pointer">
                     <div className="w-9 h-9 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-sm">
-                        AM
+                        {initials}
                     </div>
-                    <span className="text-sm font-medium text-gray-700">Alex Mercer</span>
+                    <span className="text-sm font-medium text-gray-700">{fullName}</span>
                 </div>
             </div>
         </div>
