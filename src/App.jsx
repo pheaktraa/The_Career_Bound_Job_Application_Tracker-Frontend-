@@ -1,17 +1,24 @@
-import { useState } from 'react'
-import './App.css'
+import { Routes, Route } from 'react-router-dom'
+import ProtectedRoute from './components/layout/ProtectedRoute'
+import AppLayout from './components/layout/AppLayout'
+import Login from './pages/auth/Login'
+import Register from './pages/auth/Register'
+import Dashboard from './pages/dashboard/Dashboard'
 
-function App() {
+export default function App() {
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-4">
-      <h1 className="text-4xl font-bold text-blue-600 mb-4">
-        Welcome to your App
-      </h1>
-      <p className="text-gray-600 text-lg">
-        Tailwind CSS v4 is fully configured and ready to go!
-      </p>
-    </div>
+    <Routes>
+      {/* PUBLIC ROUTES (Anyone can see these) */}
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+
+      {/* PROTECTED ROUTES (Locked by your Security Guard) */}
+      <Route element={<ProtectedRoute />}>
+        <Route element={<AppLayout />}>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/applications" element={<div>Applications Page</div>} />
+        </Route>
+      </Route>
+    </Routes>
   )
 }
-
-export default App
