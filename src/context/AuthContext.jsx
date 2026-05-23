@@ -1,21 +1,42 @@
 import { createContext, useContext, useState, useEffect } from 'react';
+import api from '../api/axios';
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [token, setToken] = useState(localStorage.getItem('token') || null);
-    // You could also add an isLoading state here if you plan to fetch user data on load
+    const [isLoading, setIsLoading] = useState(!!localStorage.getItem('token'));
 
+    // Fetch the user profile whenever a token exists but user is null
     useEffect(() => {
-        // If there's a token but no user, you might want to fetch the user profile from the API here
-        // For now, we'll just keep the token in sync with localStorage
         if (token) {
             localStorage.setItem('token', token);
+            // Only fetch if we don't already have the user data
+            if (!user) {
+                fetchUser();
+            }
         } else {
             localStorage.removeItem('token');
+            setUser(null);
+            setIsLoading(false);
         }
     }, [token]);
+
+    const fetchUser = async () => {
+        try {
+            const response = await api.get('/user');
+            setUser(response.data);
+        } catch (err) {
+            console.error('Failed to fetch user:', err);
+            // Token is likely invalid/expired — force logout
+            setToken(null);
+            setUser(null);
+            localStorage.removeItem('token');
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
     const login = (userData, authToken) => {
         setUser(userData);
@@ -34,7 +55,8 @@ export const AuthProvider = ({ children }) => {
         token,
         login,
         logout,
-        isAuthenticated: !!token
+        isAuthenticated: !!token,
+        isLoading
     };
 
     return (
