@@ -29,7 +29,7 @@ const Register = () => {
             });
             // We pass the user and token to match the context implementation
             login(response.data.user || null, response.data.token || response.data);
-            navigate('/');
+            navigate('/dashboard');
         } catch (err) {
             setError(err.response?.data?.message || 'Registration failed. Please try again.');
         } finally {

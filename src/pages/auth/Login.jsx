@@ -22,7 +22,7 @@ const Login = () => {
             // The prompt says "login(response.data.token)", but AuthContext expects login(userData, authToken)
             // We pass the token as the second argument to match the context implementation
             login(response.data.user || null, response.data.token || response.data);
-            navigate('/');
+            navigate('/dashboard');
         } catch (err) {
             setError(err.response?.data?.message || 'Login failed. Please check your credentials.');
         } finally {
