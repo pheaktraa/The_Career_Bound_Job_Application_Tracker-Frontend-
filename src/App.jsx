@@ -13,6 +13,7 @@ import MyResumes from './pages/MyResumes'
 import Applications from './pages/Applications'
 import Reminders from './pages/Reminders'
 import LandingPage from './pages/LandingPage'
+import Profile from './pages/Profile'
 
 export default function App() {
   return (
@@ -31,6 +32,7 @@ export default function App() {
           <Route path="/resumes" element={<MyResumes />} />
           <Route path="/reminders" element={<Reminders />} />
           <Route path="/cv-builder" element={<CVBuilder />} />
+          <Route path="/profile" element={<Profile />} />
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
           <Route path="/admin/users" element={<UserManagement />} />
           <Route path="/admin/templates" element={<TemplateManagement />} />
